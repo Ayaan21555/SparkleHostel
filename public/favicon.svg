@@ -1,0 +1,35 @@
+<svg width="420" height="420" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background rounded square with primary gradient -->
+  <rect width="420" height="420" rx="100" fill="url(#sparkle_grad)"/>
+
+  <!-- Washing machine body -->
+  <rect x="90" y="100" width="240" height="230" rx="24" fill="white" fill-opacity="0.15"/>
+  <rect x="90" y="100" width="240" height="230" rx="24" stroke="white" stroke-width="14"/>
+
+  <!-- Door circle -->
+  <circle cx="210" cy="235" r="72" stroke="white" stroke-width="14"/>
+  <circle cx="210" cy="235" r="44" fill="white" fill-opacity="0.2"/>
+
+  <!-- Drum lines inside door -->
+  <line x1="210" y1="163" x2="210" y2="307" stroke="white" stroke-width="8" stroke-opacity="0.4" stroke-linecap="round"/>
+  <line x1="138" y1="235" x2="282" y2="235" stroke="white" stroke-width="8" stroke-opacity="0.4" stroke-linecap="round"/>
+
+  <!-- Control panel top -->
+  <rect x="110" y="120" width="200" height="6" rx="3" fill="white" fill-opacity="0.5"/>
+
+  <!-- Control dots -->
+  <circle cx="150" cy="148" r="10" fill="white" fill-opacity="0.8"/>
+  <circle cx="185" cy="148" r="7"  fill="white" fill-opacity="0.5"/>
+  <circle cx="270" cy="148" r="14" fill="white" fill-opacity="0.9"/>
+
+  <!-- Sparkle star top-right -->
+  <path d="M318 78 L324 92 L338 98 L324 104 L318 118 L312 104 L298 98 L312 92 Z"
+        fill="white" fill-opacity="0.95"/>
+
+  <defs>
+    <linearGradient id="sparkle_grad" x1="0" y1="0" x2="420" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="hsl(343,75%,50%)"/>
+      <stop offset="1" stop-color="hsl(16,80%,60%)"/>
+    </linearGradient>
+  </defs>
+</svg>
