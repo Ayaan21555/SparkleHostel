@@ -83,19 +83,6 @@ export function Hero() {
           />
         ))}
 
-        {/* Horizontal line accents */}
-        <motion.div
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 0.15 }}
-          transition={{ duration: 2, delay: 1, ease: 'easeOut' }}
-          className="absolute top-1/3 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent origin-left"
-        />
-        <motion.div
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 0.1 }}
-          transition={{ duration: 2, delay: 1.3, ease: 'easeOut' }}
-          className="absolute bottom-1/3 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent origin-right"
-        />
       </div>
 
       {/* Main content */}

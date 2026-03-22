@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useAppTheme } from '@/context/ThemeContext'
 import { Button } from '@/components/ui/button'
 import { 
-  Menu, X, Moon, Sun, Droplets, Gamepad2, Flower2, LogIn, User, LogOut, LayoutDashboard, Calendar, WashingMachine
+  Menu, X, Moon, Sun, Droplets, Gamepad2, Flower2, LogIn, User, LogOut, LayoutDashboard, Calendar, WashingMachine, ShoppingBag, Zap, MessageSquare, Users
 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { Link, useNavigate } from '@tanstack/react-router'
@@ -30,12 +30,20 @@ export function Navbar() {
   }
 
   const navLinks = [
-    ...(!isAuthenticated ? [{ name: 'Home', href: '/', icon: <Menu className="w-5 h-5" /> }] : []),
+    ...(!isAuthenticated ? [{ name: 'Home', href: '/' as any, icon: <Menu className="w-5 h-5" /> }] : []),
     ...(isAuthenticated && !isWarden ? [
-      { name: 'Book Slot', href: '/booking', icon: <Calendar className="w-5 h-5" /> },
-      { name: 'My Laundry', href: '/laundry', icon: <WashingMachine className="w-5 h-5" /> },
+      { name: 'Book Slot', href: '/booking' as any, icon: <Calendar className="w-5 h-5" /> },
+      { name: 'My Laundry', href: '/laundry' as any, icon: <WashingMachine className="w-5 h-5" /> },
     ] : []),
-    ...(isWarden ? [{ name: 'Warden Dashboard', href: '/warden', icon: <LayoutDashboard className="w-5 h-5" /> }] : []),
+    ...(isWarden ? [
+      { name: 'Dashboard Home', href: '/warden' as any, search: '?tab=bookings', icon: <LayoutDashboard className="w-5 h-5" /> },
+      { name: 'Slot Bookings', href: '/warden' as any, search: '?tab=bookings', icon: <Calendar className="w-5 h-5" /> },
+      { name: 'Book for Student', href: '/warden' as any, search: '?tab=book-for-student', icon: <WashingMachine className="w-5 h-5" /> },
+      { name: 'Orders', href: '/warden' as any, search: '?tab=orders', icon: <ShoppingBag className="w-5 h-5" /> },
+      { name: 'Requests', href: '/warden' as any, search: '?tab=requests', icon: <Zap className="w-5 h-5" /> },
+      { name: 'Feedback', href: '/warden' as any, search: '?tab=feedback', icon: <MessageSquare className="w-5 h-5" /> },
+      { name: 'Students Directory', href: '/warden' as any, search: '?tab=students', icon: <Users className="w-5 h-5" /> },
+    ] : []),
   ]
 
   return (
@@ -111,18 +119,31 @@ export function Navbar() {
 
                 <div className="flex flex-col gap-2">
                   <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Navigation</span>
-                  {navLinks.map((link) => (
-                    <Link
-                      key={link.name}
-                      to={link.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-4 p-4 rounded-xl hover:bg-primary/10 transition-colors group [&.active]:bg-primary/20"
-                    >
-                      <div className="text-muted-foreground group-hover:text-primary transition-colors group-[.active]:text-primary">
-                        {link.icon}
-                      </div>
-                      <span className="font-bold text-lg group-[.active]:text-primary">{link.name}</span>
-                    </Link>
+                  {navLinks.map((link: any) => (
+                    link.search ? (
+                      <a
+                        key={link.name}
+                        href={`${link.href}${link.search}`}
+                        className="flex items-center gap-4 p-4 rounded-xl hover:bg-primary/10 transition-colors group [&.active]:bg-primary/20"
+                      >
+                        <div className="text-muted-foreground group-hover:text-primary transition-colors group-[.active]:text-primary">
+                          {link.icon}
+                        </div>
+                        <span className="font-bold text-lg group-[.active]:text-primary">{link.name}</span>
+                      </a>
+                    ) : (
+                      <Link
+                        key={link.name}
+                        to={link.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex items-center gap-4 p-4 rounded-xl hover:bg-primary/10 transition-colors group [&.active]:bg-primary/20"
+                      >
+                        <div className="text-muted-foreground group-hover:text-primary transition-colors group-[.active]:text-primary">
+                          {link.icon}
+                        </div>
+                        <span className="font-bold text-lg group-[.active]:text-primary">{link.name}</span>
+                      </Link>
+                    )
                   ))}
                   {isAuthenticated && (
                     <Link

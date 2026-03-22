@@ -9,8 +9,8 @@ import { useOpenRequests, useResolveRequest } from '@/hooks/useUrgentRequests'
 import { useAuth } from '@/hooks/useAuth'
 import { useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
-import { useNavigate } from '@tanstack/react-router'
-import { format, addDays } from 'date-fns'
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { format, addDays, startOfDay, addMinutes } from 'date-fns'
 import {
   Users, Calendar, ShoppingBag, Zap,
   CheckCircle2, XCircle, Clock, Loader2,
@@ -33,6 +33,13 @@ import { Label } from '@/components/ui/label'
 export default function WardenDashboard() {
   const { user, isAuthenticated, isWarden, isLoading: authLoading } = useAuth()
   const navigate = useNavigate()
+  
+  let currentTab = 'bookings'
+  try {
+    const searchParams = new URLSearchParams(window.location.search)
+    currentTab = searchParams.get('tab') || 'bookings'
+  } catch (e) {}
+
   const { slots, isLoading: isLoadingSlots } = useSlots()
   const { users, isLoading: isLoadingUsers } = useUsers()
   const { orders, isLoading: isLoadingOrders } = usePendingOrders()
@@ -248,6 +255,14 @@ export default function WardenDashboard() {
   const getSlotStatus = (time: string, machine: number) => {
     const slot = dateSlots.find(s => s.start_time === time && s.stone_id === machine)
     if (!slot) return 'unavailable'
+
+    // Real-time restriction for today
+    if (format(bookDate, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd')) {
+      const [hours, minutes] = time.split(':').map(Number)
+      const slotTime = addMinutes(startOfDay(new Date()), hours * 60 + minutes)
+      if (slotTime < new Date()) return 'expired'
+    }
+
     return slot.status
   }
 
@@ -345,23 +360,7 @@ export default function WardenDashboard() {
           </Card>
         </div>
 
-        <Tabs defaultValue="bookings" className="space-y-8">
-          <TabsList className="bg-background/50 border border-border/50 p-1 flex flex-wrap gap-1 h-auto">
-            <TabsTrigger value="bookings" className="gap-2"><Calendar className="w-4 h-4" /> Slot Bookings</TabsTrigger>
-            <TabsTrigger value="book-for-student" className="gap-2"><WashingMachine className="w-4 h-4" /> Book for Student</TabsTrigger>
-            <TabsTrigger value="orders" className="gap-2"><ShoppingBag className="w-4 h-4" /> Orders</TabsTrigger>
-            <TabsTrigger value="requests" className="gap-2"><Zap className="w-4 h-4" /> Urgent</TabsTrigger>
-            <TabsTrigger value="feedback" className="gap-2">
-              <MessageSquare className="w-4 h-4" /> Feedback
-              {feedbacks.filter(f => !f.warden_reply).length > 0 && (
-                <span className="ml-1 bg-primary text-primary-foreground text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
-                  {feedbacks.filter(f => !f.warden_reply).length}
-                </span>
-              )}
-            </TabsTrigger>
-            <TabsTrigger value="students" className="gap-2"><Users className="w-4 h-4" /> Students</TabsTrigger>
-          </TabsList>
-
+        <Tabs value={currentTab} className="space-y-8">
           <AnimatePresence mode="wait">
 
             {/* ── SLOT BOOKINGS TAB ── */}
@@ -486,10 +485,11 @@ export default function WardenDashboard() {
                                         isSelected ? 'bg-primary text-primary-foreground scale-105 shadow-glow' :
                                         status === 'available' ? 'bg-green-500/15 text-green-600 hover:bg-green-500/30 cursor-pointer' :
                                         status === 'booked' ? 'bg-primary/10 text-primary/60 cursor-not-allowed' :
+                                        status === 'expired' ? 'bg-destructive/10 text-destructive/50 cursor-not-allowed line-through' :
                                         'bg-muted text-muted-foreground cursor-not-allowed'
                                       }`}
                                     >
-                                      {isSelected ? '✓ Selected' : status === 'available' ? 'Free' : status === 'booked' ? 'Booked' : '—'}
+                                      {isSelected ? '✓ Selected' : status === 'available' ? 'Free' : status === 'booked' ? 'Booked' : status === 'expired' ? 'Expired' : '—'}
                                     </button>
                                   </td>
                                 )
