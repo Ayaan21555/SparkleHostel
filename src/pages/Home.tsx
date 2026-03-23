@@ -4,7 +4,6 @@ import { Features } from '../components/Features'
 import { Pricing } from '../components/Pricing'
 import { StudentFeedback } from '../components/StudentFeedback'
 import { motion, useScroll, useSpring } from 'framer-motion'
-import { Layout } from '../components/Layout'
 import { Sparkles } from 'lucide-react'
 import { SparkleOrbitLogo } from '../components/SparkleOrbitLogo'
 
@@ -13,7 +12,7 @@ export default function Home() {
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
 
   return (
-    <Layout>
+    <>
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-primary z-[60] origin-left"
         style={{ scaleX }}
@@ -56,6 +55,6 @@ export default function Home() {
           <a href="#" className="hover:text-primary transition-colors">Contact Us</a>
         </div>
       </footer>
-    </Layout>
+    </>
   )
 }

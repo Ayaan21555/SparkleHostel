@@ -13,12 +13,13 @@ import Booking from './pages/Booking'
 import Laundry from './pages/Laundry'
 import Profile from './pages/Profile'
 import WardenDashboard from './pages/WardenDashboard'
+import { Layout } from './components/Layout'
 
 const rootRoute = createRootRoute({
   component: () => (
-    <>
+    <Layout>
       <Outlet />
-    </>
+    </Layout>
   ),
 })
 

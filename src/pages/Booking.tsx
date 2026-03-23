@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect } from 'react'
-import { Layout } from '@/components/Layout'
 import { PageHeader } from '@/components/PageHeader'
 import { AnimatedStone } from '@/components/AnimatedStone'
 import { motion } from 'framer-motion'
@@ -132,21 +131,19 @@ export default function Booking() {
 
   if (authLoading) {
     return (
-      <Layout>
         <div className="min-h-screen flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
             <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
             <p className="text-muted-foreground font-serif italic">Loading...</p>
           </div>
         </div>
-      </Layout>
     )
   }
 
   if (!isAuthenticated) return null
 
   return (
-    <Layout>
+    <>
       <div className="container mx-auto px-4 py-8">
         <PageHeader 
           title="Slot Booking" 
@@ -312,6 +309,6 @@ export default function Booking() {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   )
 }

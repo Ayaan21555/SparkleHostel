@@ -14,11 +14,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const [showIntro, setShowIntro] = useState(true)
 
   useEffect(() => {
-    const hasSeenIntro = sessionStorage.getItem('has-seen-intro')
-    if (hasSeenIntro) setShowIntro(false)
-  }, [])
-
-  useEffect(() => {
     const handler = () => setShowIntro(true)
     window.addEventListener('replay-intro', handler)
     return () => window.removeEventListener('replay-intro', handler)
@@ -26,7 +21,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   const handleIntroComplete = () => {
     setShowIntro(false)
-    sessionStorage.setItem('has-seen-intro', 'true')
   }
 
   return (

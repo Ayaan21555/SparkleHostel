@@ -3,10 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useAppTheme } from '@/context/ThemeContext'
 import { Button } from '@/components/ui/button'
 import { 
-  Menu, X, Moon, Sun, Droplets, Gamepad2, Flower2, LogIn, User, LogOut, LayoutDashboard, Calendar, WashingMachine, ShoppingBag, Zap, MessageSquare, Users
+  Menu, X, Moon, Sun, Droplets, Gamepad2, Flower2, LogIn, User, LogOut, LayoutDashboard, Calendar, WashingMachine, ShoppingBag, Zap, MessageSquare, Users, RotateCcw
 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { Link, useNavigate } from '@tanstack/react-router'
+import { replayIntro } from './Layout'
 import { SparkleOrbitLogo } from '@/components/SparkleOrbitLogo'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 
@@ -74,6 +75,15 @@ export function Navbar() {
               >
                 {themeIcons[theme as keyof typeof themeIcons]}
               </motion.div>
+            </button>
+
+            {/* Replay Intro Button */}
+            <button
+              onClick={() => replayIntro()}
+              className="p-2 sm:p-3 rounded-full glass border border-white/10 hover:bg-white/10 hover:border-primary/50 transition-all duration-300 group shadow-lg"
+              title="Replay Intro"
+            >
+              <RotateCcw className="w-5 h-5 text-primary group-hover:rotate-180 transition-transform duration-500" />
             </button>
 
             {isAuthenticated ? (

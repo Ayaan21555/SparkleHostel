@@ -156,21 +156,19 @@ export default function Profile() {
 
   if (authLoading) {
     return (
-      <Layout>
         <div className="min-h-screen flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
             <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
             <p className="text-muted-foreground font-serif italic">Loading...</p>
           </div>
         </div>
-      </Layout>
     )
   }
 
   if (!user) return null
 
   return (
-    <Layout>
+    <>
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <PageHeader title="My Profile" subtitle="Manage your account settings and personal information." />
 
@@ -339,6 +337,6 @@ export default function Profile() {
 
         </div>
       </div>
-    </Layout>
+    </>
   )
 }

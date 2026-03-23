@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Layout } from '../components/Layout'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../components/ui/card'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
@@ -86,7 +85,7 @@ export default function Login() {
   }
 
   return (
-    <Layout>
+    <>
       <div className="min-h-[80vh] flex items-center justify-center p-6 relative overflow-hidden">
         <motion.div
           animate={{ scale: [1, 1.15, 1], rotate: [0, 45, 0] }}
@@ -222,6 +221,6 @@ export default function Login() {
           </Card>
         </motion.div>
       </div>
-    </Layout>
+    </>
   )
 }
