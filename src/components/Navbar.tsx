@@ -55,15 +55,35 @@ export function Navbar() {
             <span className="text-2xl font-bold tracking-tighter gradient-text hidden sm:block">Sparkle Hostel</span>
           </Link>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+            {/* Theme Toggle for everyone */}
+            <button
+              onClick={() => {
+                const themes: any[] = ['rose', 'ocean', 'dark', 'cyberpunk']
+                const nextIndex = (themes.indexOf(theme) + 1) % themes.length
+                setTheme(themes[nextIndex])
+              }}
+              className="p-2 sm:p-3 rounded-full glass border border-white/10 hover:bg-white/10 hover:border-primary/50 transition-all duration-300 group shadow-lg"
+              title="Switch Theme"
+            >
+              <motion.div
+                key={theme}
+                initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
+                animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                className="text-primary"
+              >
+                {themeIcons[theme as keyof typeof themeIcons]}
+              </motion.div>
+            </button>
+
             {isAuthenticated ? (
               <button 
                 onClick={() => setIsMenuOpen(true)}
-                className="flex items-center gap-3 p-1.5 pr-5 rounded-full glass border border-white/10 hover:bg-white/10 hover:border-white/30 transition-all duration-300 group shadow-lg"
+                className="flex items-center gap-3 p-1 sm:p-1.5 pr-3 sm:pr-5 rounded-full glass border border-white/10 hover:bg-white/10 hover:border-white/30 transition-all duration-300 group shadow-lg"
               >
-                <Avatar className="w-10 h-10 border-2 border-primary/40 group-hover:border-primary transition-colors">
+                <Avatar className="w-8 h-8 sm:w-10 h-10 border-2 border-primary/40 group-hover:border-primary transition-colors">
                   <AvatarImage src={user?.profile_pic || ''} />
-                  <AvatarFallback className="bg-primary/20 text-primary font-bold">
+                  <AvatarFallback className="bg-primary/20 text-primary font-bold text-xs sm:text-base">
                     {user?.name?.[0]?.toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
@@ -71,10 +91,10 @@ export function Navbar() {
                   <span className="text-sm font-bold leading-tight">{user?.name?.split(' ')[0]}</span>
                   <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">{user?.role}</span>
                 </div>
-                <Menu className="w-4 h-4 text-muted-foreground ml-2 group-hover:text-primary transition-colors" />
+                <Menu className="w-4 h-4 text-muted-foreground ml-1 sm:ml-2 group-hover:text-primary transition-colors" />
               </button>
             ) : (
-              <Button className="rounded-full px-8 h-12 shadow-glow hover:scale-105 transition-transform" onClick={() => window.location.href = '/login'}>
+              <Button className="rounded-full px-5 sm:px-8 h-10 sm:h-12 shadow-glow hover:scale-105 transition-transform text-xs sm:text-sm" onClick={() => window.location.href = '/login'}>
                 <LogIn className="w-4 h-4 mr-2" /> Login
               </Button>
             )}
